@@ -16,7 +16,7 @@ data:
         timeout: 10s
     exporters:
       otlp:
-        endpoint: "<IP of mahcine hosting SigNoz>:4317"
+        endpoint: "<IP of machine hosting SigNoz>:4317"
         insecure: true
     service:
       pipelines:
