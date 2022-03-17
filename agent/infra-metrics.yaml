@@ -45,7 +45,8 @@ data:
     exporters:
       otlp:
         endpoint: "<IP of machine hosting SigNoz>:4317"
-        insecure: true
+        tls:
+          insecure: true
     service:
       extensions: [health_check, zpages]
       pipelines:
