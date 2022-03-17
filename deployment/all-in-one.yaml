@@ -17,7 +17,8 @@ data:
     exporters:
       otlp:
         endpoint: "<IP of machine hosting SigNoz>:4317"
-        insecure: true
+        tls:
+          insecure: true
     service:
       pipelines:
         metrics:
@@ -133,7 +134,8 @@ spec:
       serviceAccountName: otelcontribcol
       containers:
       - name: otelcontribcol
-        image: otel/opentelemetry-collector-contrib:0.26.0
+        image: otel/opentelemetry-collector-contrib:0.43.0
+        imagePullPolicy: IfNotPresent
         args: ["--config", "/etc/config/config.yaml"]
         env:
         - name: K8S_NODE_NAME
@@ -155,7 +157,13 @@ spec:
         volumeMounts:
         - name: config
           mountPath: /etc/config
-        imagePullPolicy: IfNotPresent
+        resources:
+          limits:
+            cpu: 1000m
+            memory: 2Gi
+          requests:
+            cpu: 200m
+            memory: 400Mi
       volumes:
         - name: config
           configMap:
