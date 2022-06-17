@@ -25,9 +25,6 @@ data:
           disk: {}
           filesystem: {}
           network: {}
-          process:
-            mute_process_name_error: true
-          processes: {}
       kubeletstats:
         collection_interval: 60s
         auth_type: "serviceAccount"
