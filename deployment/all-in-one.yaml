@@ -134,7 +134,7 @@ spec:
       serviceAccountName: otelcontribcol
       containers:
       - name: otelcontribcol
-        image: otel/opentelemetry-collector-contrib:0.43.0
+        image: otel/opentelemetry-collector-contrib:0.45.0
         imagePullPolicy: IfNotPresent
         args: ["--config", "/etc/config/config.yaml"]
         env:
@@ -154,6 +154,8 @@ spec:
           valueFrom:
               fieldRef:
                 fieldPath: metadata.namespace
+        - name: OTEL_RESOURCE_ATTRIBUTES
+          value: host.name=$(HOST_NAME)
         volumeMounts:
         - name: config
           mountPath: /etc/config
