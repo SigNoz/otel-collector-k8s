@@ -24,24 +24,14 @@ spec:
         args:
           - "--config=/conf/otel-collector-config.yaml"
         env:
-        - name: K8S_NODE_NAME
-          valueFrom:
-            fieldRef:
-              fieldPath: spec.nodeName
-        - name: HOST_IP
-          valueFrom:
-            fieldRef:
-              fieldPath: status.hostIP
-        - name: HOST_NAME
-          valueFrom:
-            fieldRef:
-              fieldPath: spec.nodeName
-        - name: K8S_NAMESPACE
-          valueFrom:
+          - name: HOST_NAME
+            valueFrom:
               fieldRef:
-                fieldPath: metadata.namespace
-        - name: OTEL_RESOURCE_ATTRIBUTES
-          value: host.name=$(HOST_NAME)
+                fieldPath: spec.nodeName
+          - name: OTEL_RESOURCE_ATTRIBUTES
+            value: host.name=$(HOST_NAME)
+          - name: OTEL_COLLECTOR_ENDPOINT
+            value: my-release-signoz-otel-collector.platform.svc.cluster.local:4317
         resources:
           limits:
             cpu: 1000m
@@ -50,14 +40,9 @@ spec:
             cpu: 200m
             memory: 400Mi
         ports:
-        - containerPort: 55679 # Default endpoint for ZPages.
-        - containerPort: 55680 # Default endpoint for OpenTelemetry receiver.
-        - containerPort: 55681 # Default endpoint for OpenTelemetry HTTP/1.0 receiver.
-        - containerPort: 4317 # Default endpoint for OpenTelemetry GRPC receiver.
-        - containerPort: 14250 # Default endpoint for Jaeger GRPC receiver.
-        - containerPort: 14268 # Default endpoint for Jaeger HTTP receiver.
-        - containerPort: 9411 # Default endpoint for Zipkin receiver.
-        - containerPort: 8888  # Default endpoint for querying metrics.
+          - containerPort: 4317 # Default endpoint for OpenTelemetry GRPC receiver.
+          - containerPort: 4318 # Default endpoint for OpenTelemetry HTTP receiver.
+          - containerPort: 8888  # Default endpoint for internal metrics.
         volumeMounts:
         - name: otel-collector-config-vol
           mountPath: /conf
