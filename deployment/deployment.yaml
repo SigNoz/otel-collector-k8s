@@ -21,18 +21,6 @@ spec:
           imagePullPolicy: IfNotPresent
           args: ["--config", "/etc/config/config.yaml"]
           env:
-            - name: K8S_NODE_NAME
-              valueFrom:
-                fieldRef:
-                  fieldPath: spec.nodeName
-            - name: HOST_IP
-              valueFrom:
-                fieldRef:
-                  fieldPath: status.hostIP
-            - name: K8S_NAMESPACE
-              valueFrom:
-                  fieldRef:
-                    fieldPath: metadata.namespace
             - name: OTEL_COLLECTOR_ENDPOINT
               value: my-release-signoz-otel-collector.platform.svc.cluster.local:4317
           volumeMounts:

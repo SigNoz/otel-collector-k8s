@@ -12,6 +12,11 @@ data:
         protocols:
           grpc: {}
           http: {}
+      kubeletstats:
+        collection_interval: 60s
+        auth_type: serviceAccount
+        endpoint: ${K8S_NODE_NAME}:10250
+        insecure_skip_verify: true
       hostmetrics:
         collection_interval: 60s
         scrapers:
@@ -26,7 +31,7 @@ data:
           global:
             scrape_interval: 30s
           scrape_configs:
-            - job_name: otel-collector
+            - job_name: otel-collector-agent
               static_configs:
               - targets: [localhost:8888]
     processors:
@@ -49,6 +54,6 @@ data:
       extensions: [health_check, zpages]
       pipelines:
         metrics:
-          receivers: [otlp, hostmetrics, prometheus]
+          receivers: [otlp, kubeletstats, hostmetrics, prometheus]
           processors: [resourcedetection, batch]
           exporters: [otlp]
