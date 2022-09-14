@@ -134,7 +134,7 @@ spec:
       serviceAccountName: otelcontribcol
       containers:
       - name: otelcontribcol
-        image: otel/opentelemetry-collector-contrib:0.45.0
+        image: otel/opentelemetry-collector-contrib:0.55.0
         imagePullPolicy: IfNotPresent
         args: ["--config", "/etc/config/config.yaml"]
         env:
